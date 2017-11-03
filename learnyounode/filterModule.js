@@ -4,21 +4,26 @@ var path = require('path');
 //var filepath = process.argv[2];
 //var extension = '.' + process.argv[3];
 
-var getExt = function(filepath, extensionStr, callback) { 
-	if (err) {
-		return console.log(err);
-	}
-
-	extensionStr = '.' + extensionStr;
+module.exports = function(filepath, extensionStr, callback) { 
 	fs.readdir(filepath, function(err, files) {
-	return files.reduce(function(total, file){
+	if (err) {
+		return callback(err);
+	}
+	var array = new Array();
+	var result = files.reduce(function(total, file){
+		if (extensionStr.charAt(0) != '.') {
+			//console.log(extensionStr);
+			extensionStr = '.' + extensionStr;
+		}
 		if (extensionStr === path.extname(file)) {
-			return total.push(file);
+			//console.log(typeof total);
+			//console.log(typeof file);
+			total[total.length] = file;
+			return total;
 		} else {
 			return total; 
 		}
 	}, []);
+	callback(false, result);
 	});
 }
-
-module.exports = getExt;
