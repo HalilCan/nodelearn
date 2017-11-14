@@ -9,6 +9,6 @@ app.set('view engine', 'pug');
 
 //This is how we serve the template page with the response
 app.get('/home', function (req, res) {
-	res.render('index', {date: new Date().toDateString});
+	res.render('index', {date: (new Date()).toDateString()});
 });
 app.listen(process.argv[2]);
