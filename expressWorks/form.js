@@ -20,6 +20,11 @@ app.listen(process.argv[2]);
 
 app.post('/form', function(req, res) {
 	//this is where we handle the POST request to the /form path
-	
+
+	//We get the string from the post request using the body parser method
+	console.log(req.body.str);
+
+	res.end(req.body.str.split('').reverse().join(''));
 });
+
 
