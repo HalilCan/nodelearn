@@ -8,24 +8,16 @@ var filePath = process.argv[3];
 
 app.get('/books', function(req, res) {
 	// Write response head
-	res.writeHead(200, {'content-type': 'application/json'});
+	//res.writeHead(200, {'content-type': 'application/json'});
 
-	// This line opens the file as a readable stream
-	var readStream = fs.createReadStream(filePath);
+	var object;
+	//We won't use a stream to read the file, instead just read it wih readFile
+	fs.readFile(filePath, 'utf8', function(err, rdString) {
+		if (err) res.sendStatus(500);
 
-	var jsonObject = '';
-
-	// This will wait until we know the readable stream is actually valid before piping
-	readStream.on('open', function(read) {
-		//console.log(read);
-		// This just pipes the stream to the the response
-		readStream.pipe(jsonObject);
-		console.log(jsonObject)
-	});
-
-	readStream.on('error', function(err) {
-		res.end(err);
-	});
+		object = JSON.parse(rdString);
+		res.json(object);
+	})
 });
 
 app.listen(requestPort);
