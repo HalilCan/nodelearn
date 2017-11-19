@@ -13,20 +13,19 @@ app.get('/books', function(req, res) {
 	// This line opens the file as a readable stream
 	var readStream = fs.createReadStream(filePath);
 
-	var jsonObject;
+	var jsonObject = '';
 
 	// This will wait until we know the readable stream is actually valid before piping
-	readStream.on('open', function() {
-		// This just pipes the stream to the jsonObject
+	readStream.on('open', function(read) {
+		//console.log(read);
+		// This just pipes the stream to the the response
 		readStream.pipe(jsonObject);
-	})
-
-	console.log('jsonObject: ' + jsonObject);
-	console.log('readStream: ' + readStream);
+		console.log(jsonObject)
+	});
 
 	readStream.on('error', function(err) {
 		res.end(err);
-	})
+	});
 });
 
-app.listen(reqPort);
+app.listen(requestPort);
